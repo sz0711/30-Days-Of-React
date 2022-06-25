@@ -1,100 +1,74 @@
-// index.js
 import React from 'react'
 import { createRoot }  from 'react-dom/client';
-import ppImage from './images/Capture.PNG'
-// JSX element, header
-const welcome = 'Welcome to 30 Days Of React'
-const title = 'Getting Started React'
-const subtitle = 'JavaScript Library'
-const author = {
-  firstName: 'Asabeneh',
-  lastName: 'Yetayeh',
+
+class Button extends React.Component {
+    render() { 
+        const{
+            clickEvent,
+            buttonText
+        } = this.props
+    return(
+    <button onClick={clickEvent}>{buttonText}</button>
+    )}
 }
-const date = 'Oct 2, 2020'
 
-const iconImage = (
+
+const Red = () => (
   <div>
-    <img src={ppImage} alt='that is an icon' />
+    <h1>THIS IS THE RED ONE</h1>
+  </div>
+)
+const Normal = (props) => (
+  <div>
+    <h1>THIS IS THE USUALLY COMPONENT!</h1>
   </div>
 )
 
-// JSX element, header
-const header = (
-  <header>
-    <div className='header-wrapper'>
-      <h1>{welcome}</h1>
-      <h2>{title}</h2>
-      <h3>{subtitle}</h3>
-      <p>
-        Instructor: {author.firstName} {author.lastName}
-      </p>
-      <small>Date: {date}</small>
-    </div>
-  </header>
-)
 
-const numOne = 3
-const numTwo = 2
 
-const result = (
-  <p>
-    {numOne} + {numTwo} = {numOne + numTwo}
-  </p>
-)
+class App extends React.Component {
 
-const yearBorn = 1820
-const currentYear = new Date().getFullYear()
-const age = currentYear - yearBorn
-const personAge = (
-  <p>
-    {' '}
-    {author.firstName} {author.lastName} is {age} years old
-  </p>
-)
+    constructor(props) {
+      super(props);
+      this.state = {
+        bgColor: "#FFF",
+        textColor: "red"
+      }
+    }
+  
+  
+    buttonClick = (e) => {
+      let bg = this.state.bgColor === "#FFF" ? "red" : "#FFF";
+      let font = this.state.bgColor === "#FFF" ? "#FFF" : "red";
 
-// JSX element, main
-const techs = ['HTML', 'CSS', 'JavaScript']
-const techsFormatted = techs.map((tech) => <li>{tech}</li>)
+      this.setState({
+        bgColor: bg, textColor: font
+      })
+    }
 
-// JSX element, main
-const main = (
-  <main>
-    <div className='main-wrapper'>
-      <p>{iconImage}</p>
-      <p>
-        Prerequisite to get started{' '}
-        <strong>
-          <em>react.js</em>
-        </strong>
-        :
-      </p>
-      <ul>{techsFormatted}</ul>
-      {result}
-      {personAge}
-    </div>
-  </main>
-)
-
-const copyRight = 'Copyright 2020'
-
-// JSX element, footer
-const footer = (
-  <footer>
-    <div className='footer-wrapper'>
-      <p>{copyRight}</p>
-    </div>
-  </footer>
-)
-
-// JSX element, app
-const app = (
-  <div className='app'>
-    {header}
-    {main}
-    {footer}
-  </div>
-)
-
+    
+    render() {
+      let btnTxt;
+      btnTxt = this.state.bgColor === "#FFF" ? "Turn into red!" : "Let's get back to normal...";
+      let status = this.state.bgColor === "#FFF" ? (
+        <Normal/>
+      ) : (
+        <Red/>
+      )
+     
+      return (
+        <div className="App" style={{backgroundColor: this.state.bgColor, color: this.state.textColor}}>
+          {status}
+          <article className='experimentsHolder'>
+            <h2>Test 3</h2>
+            <p>This is an example of an onClick event 'renderd' by react.</p>
+            <Button clickEvent={this.buttonClick} buttonText={btnTxt} />
+          </article>
+  
+        </div>
+      );
+    }
+  }
 
 const root = createRoot( document.getElementById("root") );
-root.render(app);
+root.render(<App/>);
